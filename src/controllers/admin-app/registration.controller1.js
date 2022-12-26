@@ -23,9 +23,6 @@ const DoctorModel = require('../../models/doctor.model');
 const DoctorCategory = require('../../models/doctor_category.model')
 const InspectionModel = require('../../models/inspection.model')
 const { Op } = require("sequelize");
-const directModel = require('../../models/direct.model')
-const registerDirectModel = require('../../models/register_direct.model')
-const registerMedDirectModel = require('../../models/register_med_direct.model')
 const palataModel = require('../../models/palata.model')
 const PillModel = require('../../models/pill.model');
 const Registration_payModel = require('../../models/registration_pay.model');
@@ -40,7 +37,6 @@ const RegistrationModel = require('../../models/registration.model');
 const uplataModel = require('../../models/uplata.model')
 const moment = require('moment');
 const register_mkb = require('../../models/register_mkb.model');
-const med_directModel = require('../../models/med_direct.model');
 class RegistrationController {
     q=[];
     getAll = async (req, res, next) => {
@@ -250,7 +246,6 @@ class RegistrationController {
         var {registration_inspection,registration_doctor,registration_files,registration_palata, registration_pay, ...data} = req.body;
         data.created_at=Math.floor(new Date().getTime() / 1000);
         const model = await ModelModel.create(data);
-        await this.#directAdd(model);
         if (!model) {
             throw new HttpException(500, 'Something went wrong');
         }
@@ -296,7 +291,6 @@ class RegistrationController {
             await this.#palataadd(model, registration_palata,false);
             await this.#payAdd(model, registration_pay,false);
             await this.#queue(false);
-            await this.#directAdd(model, false);
             
             res.status(200).send({
                 error: false,
@@ -314,51 +308,7 @@ class RegistrationController {
 
     };
 
-    #directAdd = async(model, insert = true) => {
-        if(!insert){
-          await this.#deleteDirect(model.id)
-        }
-        const direct = await directModel.findOne({
-           where:{
-               id: model.direct_id
-           },
-           raw: true
-       })
-        var directs = {
-           "date_time": Math.floor(new Date().getTime() / 1000),
-           "type": 0,
-           "price": (model.summa * direct.bonus)/100,
-           "doc_id": model.id,
-           "doc_type": "kirim",
-           "comment": "",
-           "place": "Registration",
-           "direct_id": model.direct_id
-        }
-      const direc =  await registerDirectModel.create(directs);
-      await this.#medDirect(direc, model, direct, false);
-
-     }
-     #medDirect = async(direc, model, direct, insert = true) =>{
-        if(!insert){
-            await this.#medDelete(model.id)
-        }
-        const meds = await med_directModel.findOne({
-            where:{
-                id: direct.med_id
-            }
-        })
-        var med = {
-           "date_time": Math.floor(new Date().getTime() / 1000),
-           "type": 0,
-           "price": (model.summa * meds.bonus)/100,
-           "doc_id": direc.doc_id,
-           "doc_type": "kirim",
-           "comment": "",
-           "place": "Registration",
-           "direct_id": direct.med_id
-        }
-        await registerMedDirectModel.create(med);
-     }
+  
 
     palataDel = async(req, res, next) => {
     const model = await register_palataModel.destroy({

@@ -6,7 +6,6 @@ const UserModel = require('./user.model');
 const Register_kassaModel = require('./register_kassa.model');
 const PatientModel = require('./patient.model');
 const DoctorModel = require('./doctor.model');
-const directModel = require('./direct.model');
 // const Registration_inspection_childModel = require('./registration_inspection_child.model');
 // const palataModel = require('./palata.model');
 const registration_palataModel = require('./registration_palata_arxiv.model');
@@ -100,7 +99,6 @@ Registration_arxivModel.hasMany(Registration_filesModel, {as: 'registration_file
 Registration_arxivModel.belongsTo(PatientModel, {as: 'patient', foreignKey: 'patient_id'})
 Registration_arxivModel.belongsTo(DoctorModel, {as: 'doctor', foreignKey: 'id'})
 Registration_arxivModel.belongsTo(UserModel, {as: 'user', foreignKey: 'user_id'})
-Registration_arxivModel.belongsTo(directModel, {as: 'direct', foreignKey: 'direct_id'})
 Registration_arxivModel.hasMany(registration_palataModel, {as: 'registration_palata', foreignKey: 'registration_id'});
 Registration_arxivModel.hasMany(Registration_payModel, {as: 'registration_pay', foreignKey: 'registration_id'});
 module.exports = Registration_arxivModel;
