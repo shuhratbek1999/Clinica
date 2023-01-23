@@ -586,6 +586,7 @@ class RegistrationController {
                 }
                 
             }, 1000);
+            console.log(user, 'salom', data);
             function isHave(item) { 
                 return item.room_id == user.room_id&&item.patient_id == model.patient_id;
               }
