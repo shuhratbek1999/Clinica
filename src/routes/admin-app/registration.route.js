@@ -29,5 +29,5 @@ router.post('/kassasverka', auth(),  awaitHandlerFactory(registrationControl.kas
 router.post('/directhisobot', auth(),  awaitHandlerFactory(registrationControl.directHisobot));
 router.post('/directSverka', auth(),  awaitHandlerFactory(registrationControl.directSverka));
 router.patch('/update/:id', auth(), registrationValidate, awaitHandlerFactory(registrationControl.update));
-router.delete('/delete/:id', auth(), awaitHandlerFactory(registrationControl.deleted));
+router.delete('/delete', auth(), awaitHandlerFactory(registrationControl.deleted));
 module.exports = router;
