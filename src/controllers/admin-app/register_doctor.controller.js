@@ -136,25 +136,24 @@ class RegisterDoctorController {
    
    DoctorSverka = async (req, res, next) => {
     this.checkValidation(req);
-    res.send(req.body)
-    // let query = {}, queryx = {};
-    // let body = req.body;
-    // let datetime1 = body.datetime1;
-    // let datetime2 = body.datetime2;
-    // if(body.doctor_id !== null){
-    //     query.id = {[Op.eq] : body.doctor_id }
-    //     queryx.doctor_id = {[Op.eq]: body.doctor_id}
-    // };
-    // const model = await Register_DoctorModel.findAll({
-    //     attributes: [ 'doc_type', 'id', 'date_time', "doc_id", "comment","doctor_id", "place",
-    //         [sequelize.literal("SUM(CASE WHEN register_doctor.date_time < " + datetime1 + " THEN price * power(-1, 'type') ELSE 0 END)"), 'begin_total'],
-    //        [sequelize.literal("SUM(CASE WHEN register_doctor.date_time >= " + datetime1 + " and register_doctor.date_time <= " + datetime2 + " AND register_doctor.doc_type = 'kirim' THEN register_doctor.price ELSE 0 END)"), 'kirim'],
-    //        [sequelize.literal("SUM(CASE WHEN register_doctor.date_time >= " + datetime1 + " and register_doctor.date_time <= " + datetime2 + " AND register_doctor.doc_type = 'chiqim' THEN register_doctor.price ELSE 0 END)"), 'chiqim'],
-    //    ],  
-    //    where: queryx,
-    //    group: ['id']
-    // })
-    // res.send(model)
+    let query = {}, queryx = {};
+    let body = req.body;
+    let datetime1 = body.datetime1;
+    let datetime2 = body.datetime2;
+    if(body.doctor_id !== null){
+        query.id = {[Op.eq] : body.doctor_id }
+        queryx.doctor_id = {[Op.eq]: body.doctor_id}
+    };
+    const model = await Register_DoctorModel.findAll({
+        attributes: [ 'doc_type', 'id', 'date_time', "doc_id", "comment","doctor_id", "place",
+            [sequelize.literal("SUM(CASE WHEN register_doctor.date_time < " + datetime1 + " THEN price * power(-1, 'type') ELSE 0 END)"), 'begin_total'],
+           [sequelize.literal("SUM(CASE WHEN register_doctor.date_time >= " + datetime1 + " and register_doctor.date_time <= " + datetime2 + " AND register_doctor.doc_type = 'kirim' THEN register_doctor.price ELSE 0 END)"), 'kirim'],
+           [sequelize.literal("SUM(CASE WHEN register_doctor.date_time >= " + datetime1 + " and register_doctor.date_time <= " + datetime2 + " AND register_doctor.doc_type = 'chiqim' THEN register_doctor.price ELSE 0 END)"), 'chiqim'],
+       ],  
+       where: queryx,
+       group: ['id']
+    })
+    res.send(model)
    }
 
    DoctorCount = async (req, res, next) => {
