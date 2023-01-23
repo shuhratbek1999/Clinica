@@ -135,7 +135,6 @@ class RegisterDoctorController {
     }
    
    DoctorSverka = async (req, res, next) => {
-    this.checkValidation(req);
     let query = {}, queryx = {};
     let body = req.body;
     let datetime1 = body.datetime1;
