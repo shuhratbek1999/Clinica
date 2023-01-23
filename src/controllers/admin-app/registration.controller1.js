@@ -542,6 +542,7 @@ class RegistrationController {
                 },
                 raw: true
             })
+            // console.log(user, 'user');
             var news={
                 "doctor_id":element.doctor_id,
                 "registration_id":model.id,
@@ -586,7 +587,7 @@ class RegistrationController {
                 }
                 
             }, 1000);
-            console.log(user, 'salom', data);
+            // console.log(user, 'salom', data);
             function isHave(item) { 
                 return item.room_id == user.room_id&&item.patient_id == model.patient_id;
               }
