@@ -441,7 +441,7 @@ class RegistrationController {
                 Register_inspectionModel.create({
                     "date_time": date_time,
                     "type": data.type,
-                    "price": Math.floor((data.price * user.percent)/100),
+                    "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
                     "doc_id": data.registration_id,
                     "user_id": data.user_id,
                     "inspection_id": data.inspection_id,
@@ -457,7 +457,7 @@ class RegistrationController {
                 Register_inspectionModel.create({
                     "date_time": date_time,
                     "type": data.type,
-                    "price": Math.floor((data.price * user.percent)/100),
+                    "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
                     "doc_id": data.registration_id,
                     "user_id": data.user_id,
                     "inspection_id": data.inspection_id,
@@ -563,7 +563,7 @@ class RegistrationController {
                     RegisterDoctorModel.create({
                         "date_time": date_time,
                         "type": data.text,
-                        "price": Math.floor((data.price * user.percent)/100),
+                        "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
                         "doc_id": model.id, 
                         "doctor_id": data.doctor_id,
                         "doc_type": 'kirim',
@@ -576,7 +576,7 @@ class RegistrationController {
                 RegisterDoctorModel.create({
                     "date_time": date_time,
                     "type": data.text,
-                    "price": Math.floor((data.price * user.percent)/100),
+                    "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
                     "doc_id": model.id, 
                     "doctor_id": data.doctor_id,
                     "doc_type": 'kirim',
