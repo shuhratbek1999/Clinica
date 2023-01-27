@@ -22,8 +22,9 @@ var upload = multer({
 }).single('href');
 
 router.post("/imgs", upload, function(request, response) {
+    console.log(request.file);
     response.json({
-        img: `http://185.196.213.31:${port}/href/${request.file.filename}`
+        img: `href/${request.file.filename}`
     })
     });
 
