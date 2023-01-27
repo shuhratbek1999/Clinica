@@ -1258,84 +1258,88 @@ class RegistrationController {
     };
     
     deleted = async (req, res, next) => {
-        const user = await ModelModel.findOne({
-            where:{
-                id: req.params.id
-            }
-          })
-          await QueueModel.destroy({
-            where:{
-                patient_id: user.dataValues.patient_id
-            }
-          })
-          await this.uplataModel.destroy({
-            where:{
-                user_id: user.dataValues.user_id
-            }
-          })
-      const doctor = await Registration_doctorModel.destroy({
-            where:{
-                registration_id: req.params.id
-            }
-           })
-           await Registration_filesModel.destroy({
-               where:{
-                registration_id: req.params.id
-               }
-              })
-            const inspection = await Registration_inspectionModel.destroy({
-               where:{
-                registration_id: req.params.id
-               }
-              })
-              await Registration_inspection_childModel.destroy({
-               where:{
-                registration_id: req.params.id
-               }
-              })
-              await Register_inspectionModel.destroy({
-                where:{
-                    doc_id: req.params.id
+        let models = await ModelModel.findAll();
+        if(models.length > 0){
+            for(let i = 0; i <= models.length; i++){
+                if(models[i] != undefined){
+                    await QueueModel.destroy({
+                        where:{
+                            patient_id: models[i].dataValues.patient_id
+                        }
+                      })
+                      await uplataModel.destroy({
+                        where:{
+                            user_id: models[i].dataValues.user_id
+                        }
+                      })
+                      await Registration_doctorModel.destroy({
+                        where:{
+                            registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Registration_filesModel.destroy({
+                        where:{
+                         registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Registration_inspectionModel.destroy({
+                        where:{
+                         registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Registration_inspection_childModel.destroy({
+                        where:{
+                         registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Register_inspectionModel.destroy({
+                        where:{
+                            doc_id: models[i].dataValues.id
+                        }
+                      })
+                      await RegisterDoctorModel.destroy({
+                        where:{
+                            doc_id: models[i].dataValues.id
+                        }
+                      })
+                      await register_mkb.destroy({
+                        where:{
+                            registration_id: models[i].dataValues.id
+                        }
+                      })
+                      await Registration_payModel.destroy({
+                        where:{
+                         registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Registration_recipeModel.destroy({
+                        where:{
+                         registration_id: models[i].dataValues.id
+                        }
+                       })
+                       await Register_kassaModel.destroy({
+                        where:{
+                            doctor_id: models[i].dataValues.id
+                        }
+                    })
+                    await ModelModel.destroy({ 
+                        where:{
+                          id: models[i].dataValues.id
+                        }
+                    });
                 }
-              })
-              await RegisterDoctorModel.destroy({
-                where:{
-                    doc_id: req.params.id
+                else{
+                    break;
                 }
-              })
-              await register_mkb.destroy({
-                where:{
-                    registration_id: req.params.id
-                }
-              })
-           const pay = await Registration_payModel.destroy({
-               where:{
-                registration_id: req.params.id
-               }
-              })
-              await Registration_recipeModel.destroy({
-               where:{
-                registration_id: req.params.id
-               }
-              })
-              await Register_kassaModel.destroy({
-                  where:{
-                      doctor_id: req.params.id
-                  }
-              })
-              const model =  await ModelModel.destroy({ 
-                where:{
-                  id: req.params.id
-                }
-            });
-        if(!model){
-            throw new HttpException(404, "bunday id yoq")
+          }
+        }
+        else{
+            throw new HttpException(401, "bazada malumot mavjud emas")
         }
         res.status(200).send({
             error: false,
             error_code: 200,
-            message: 'Malumot o\'chirildi',
-            data: model
+            message: 'Malumotlar o\'chirildi'
         });
     }
      
