@@ -24,7 +24,7 @@ var upload = multer({
 router.post("/imgs", upload, function(request, response) {
     console.log(request.file);
     response.json({
-        img: `href/${request.file.filename}`
+        img: `${request.file.filename}`
     })
     });
 
