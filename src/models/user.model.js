@@ -71,6 +71,27 @@ UserModel.init({
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "room_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doctor_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "inspection_category_id" },
+      ]
+    },
     
   ],
   // findOne da yoki findAll da chaqirish kerak

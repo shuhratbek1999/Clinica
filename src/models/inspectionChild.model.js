@@ -55,6 +55,14 @@ status: {
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      unique: true,
+      using: "BTREE",
+      fields: [
+        { name: "parent_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
   scopes: {

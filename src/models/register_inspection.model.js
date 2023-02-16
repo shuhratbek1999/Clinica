@@ -62,8 +62,35 @@ place:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doc_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "user_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "inspection_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "inspection_category" },
+      ]
+    }
   ],
-  
 });
 Register_inspectionModel.belongsTo(InspectionCategory, {as: 'inspection', foreignKey: 'inspection_category'})
 Register_inspectionModel.belongsTo(RegistrationModel, {as: 'registration', foreignKey: 'doc_id'})

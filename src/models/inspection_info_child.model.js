@@ -43,6 +43,13 @@ code:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "info_id" },
+      ]
+    },
   ],
   //findOne da yoki findAll da chaqirish kerak
 });

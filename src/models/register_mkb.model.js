@@ -54,6 +54,27 @@ doctor_id:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "mkb_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "registration_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "patient_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
 });

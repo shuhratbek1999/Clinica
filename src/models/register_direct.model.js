@@ -48,12 +48,26 @@ place:{
   indexes: [
     {
       name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doc_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "direct_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
       unique: true,
       using: "BTREE",
       fields: [
         { name: "id" },
       ]
-    },
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
 });

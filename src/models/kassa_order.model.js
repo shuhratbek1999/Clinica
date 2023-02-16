@@ -52,6 +52,13 @@ comment:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "expense_id" },
+      ]
+    }
   ],
  
 });

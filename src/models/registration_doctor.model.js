@@ -54,6 +54,20 @@ date_time:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doctor_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "registration_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
   scopes: {

@@ -35,10 +35,6 @@ Registration_inspectionModel.init({
       type: DataTypes.INTEGER,
       allowNull: false
   },
-  price:{
-      type: DataTypes.INTEGER,
-      allowNull: false
-  },
 //inspection_category
   category_id:{
       type: DataTypes.INTEGER
@@ -68,6 +64,34 @@ Registration_inspectionModel.init({
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "inspection_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "user_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "registration_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "category_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
   scopes: {

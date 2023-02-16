@@ -56,6 +56,13 @@ Register_kassaModel.init({
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doctor_id" },
+      ]
+    }
   ],
  
 });

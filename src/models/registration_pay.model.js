@@ -59,6 +59,22 @@ summa:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      unique: true,
+      using: "BTREE",
+      fields: [
+        { name: "registration_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      unique: true,
+      using: "BTREE",
+      fields: [
+        { name: "user_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
   scopes: {

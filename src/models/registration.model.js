@@ -92,6 +92,27 @@ tramma_type:{
         { name: "id" },
       ]
     },
+    {
+        name: "PRIMARY",
+        using: "BTREE",
+        fields: [
+          { name: "user_id" },
+        ]
+      },
+      {
+        name: "PRIMARY",
+        using: "BTREE",
+        fields: [
+          { name: "patient_id" },
+        ]
+      },
+      {
+        name: "PRIMARY",
+        using: "BTREE",
+        fields: [
+          { name: "direct_id" },
+        ]
+      }
   ],
    
 });

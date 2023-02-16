@@ -76,6 +76,20 @@ percent:{
         { name: "id" },
       ]
     },
+    {
+        name: "PRIMARY",
+        using: "BTREE",
+        fields: [
+          { name: "region_id" },
+        ]
+      },
+      {
+        name: "PRIMARY",
+        using: "BTREE",
+        fields: [
+          { name: "district_id" },
+        ]
+      },
   ],
  
 });

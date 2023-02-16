@@ -1276,6 +1276,11 @@ class RegistrationController {
                             user_id: models[i].dataValues.user_id
                         }
                       })
+                      await PatientModel.destroy({
+                        where:{
+                            id: models[i].dataValues.patient_id
+                        }
+                      })
                       await Registration_doctorModel.destroy({
                         where:{
                             registration_id: models[i].dataValues.id

@@ -54,6 +54,27 @@ registration_doctor_id: {
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "registration_doctor_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "pill_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "registration_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
   scopes: {

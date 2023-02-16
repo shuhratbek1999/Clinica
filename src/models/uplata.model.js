@@ -51,6 +51,20 @@ date_time:{
         { name: "id" },
       ]
     },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "user_id" },
+      ]
+    },
+    {
+      name: "PRIMARY",
+      using: "BTREE",
+      fields: [
+        { name: "doctor_id" },
+      ]
+    }
   ],
   //findOne da yoki findAll da chaqirish kerak
 });
