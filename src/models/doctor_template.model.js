@@ -62,7 +62,7 @@ Doctor_templateModel.init({
       ]
     },
     {
-        name: "PRIMARY",
+        name: "doctor_id",
         using: "BTREE",
         fields: [
           { name: "doctor_id" },
