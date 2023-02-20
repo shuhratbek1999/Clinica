@@ -5,7 +5,8 @@ const inspectionModel = require('../../models/inspection.model');
 const inspectionChildModel = require('../../models/inspectionChild.model');
 const UserModel = require('../../models/user.model');
 const inspector_categoryModel = require('../../models/inspector_category.model');
-const client = require('../../startup/client')
+const client = require('../../startup/client');
+const RoomModel = require('../../models/room.model');
 /******************************************************************************
  *                              Employer Controller
  ******************************************************************************/
@@ -13,7 +14,11 @@ class InspectionController {
     getAll = async (req, res, next) => {
         const model = await inspectionModel.findAll({
             include:[
-                {model: UserModel, as: 'User', attributes: ['id', "user_name"]},
+                {model: UserModel, as: 'User', attributes: ['id', "user_name"],
+              include:[
+                {model: RoomModel, as: 'Room'}
+              ]
+            },
                     {model: inspectionChildModel, as: 'inspectionChild', attributes:['norm', 'parent_id','price', 'name', 'file', 'citizen_price']},
                     {model: inspector_categoryModel, as: 'inspector_category'}
             ]

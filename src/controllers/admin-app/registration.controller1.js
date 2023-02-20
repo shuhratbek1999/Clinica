@@ -43,10 +43,7 @@ class RegistrationController {
         const model = await ModelModel.findAll({
             include:[ 
                 {
-                    model: UserModel, as: 'user', attributes: ['user_name', 'room_id'],
-                    include:[
-                        {model: RoomModel, as:'Room'}
-                    ]
+                    model: UserModel, as: 'user', attributes: ['user_name', 'room_id']
                 },
                 {
                     model: PatientModel, as: 'patient'
@@ -70,9 +67,7 @@ class RegistrationController {
                 } 
              ],
              limit: 200,
-             order: [
-                ['created_at', 'DESC']
-             ]
+             order: ['created_at', 'DESC']
         });
         res.status(200).send({  
             error: false,
@@ -89,10 +84,7 @@ class RegistrationController {
             where:{ id: req.params.id },
             include: [
                 {
-                  model: UserModel, as: 'user', attributes:['user_name', 'room_id'],
-                  include:[
-                    {model: RoomModel, as:'Room'}
-                ]
+                  model: UserModel, as: 'user', attributes:['user_name']
                 }, 
                 {
                   model: registration_palataModel, as: 'registration_palata',
@@ -128,9 +120,7 @@ class RegistrationController {
                 {model: Registration_payModel, as: 'registration_pay'}
             ],
             limit: 200,
-            order: [
-                ['created_at', 'DESC']
-             ]
+            order: ['created_at', 'DESC']
         });
         if (Prixod === null) {
             throw new HttpException(404, 'Not found');
