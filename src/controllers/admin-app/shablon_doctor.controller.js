@@ -2,8 +2,8 @@
 const HttpException = require('../../utils/HttpException.utils');
 // const status = require('../../utils/status.utils')
 const shablon_doctorModel = require('../../models/shablon_doctor.model')
-const RegionModel = require('../../models/region.model')
 const { validationResult } = require('express-validator');
+const { Op } = require("sequelize");
 
 /******************************************************************************
  *                              Employer Controller
@@ -50,7 +50,10 @@ class shablon_doctorController {
    shablonDoctor = async(req, res, next) => {
     const model = await shablon_doctorModel.findAll({
         where:{
-            doctor_id: req.body.doctor_id
+            [Op.or]: [
+                { doctor_id: req.body.doctor_id },
+                { doctor_id: 0 }
+              ]
         }
     })
     if(!model){
