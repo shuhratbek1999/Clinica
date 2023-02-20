@@ -61,7 +61,7 @@ module.exports = function(app){
         app.use(`/api/v1/admin-app/register_mkb`, register_mkb);
         app.use(`/api/v1/admin-app/info`, inspection_info);
 
-        app.use(`/api/v1/admin-app/`, express.static('upload'));
+        app.use(`/api/v1/admin-app/href`, express.static('upload')  );
 
         // 404 error
         app.all('*', (req, res, next) => {

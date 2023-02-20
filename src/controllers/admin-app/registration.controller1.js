@@ -43,7 +43,7 @@ class RegistrationController {
         const model = await ModelModel.findAll({
             include:[ 
                 {
-                    model: UserModel, as: 'user', attributes: ['user_name']
+                    model: UserModel, as: 'user', attributes: ['user_name', 'room_id']
                 },
                 {
                     model: PatientModel, as: 'patient'
