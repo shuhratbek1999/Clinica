@@ -43,7 +43,10 @@ class RegistrationController {
         const model = await ModelModel.findAll({
             include:[ 
                 {
-                    model: UserModel, as: 'user', attributes: ['user_name']
+                    model: UserModel, as: 'user', attributes: ['user_name', 'room_id'],
+                    include:[
+                        {model: RoomModel, as:'Room'}
+                    ]
                 },
                 {
                     model: PatientModel, as: 'patient'
@@ -84,7 +87,10 @@ class RegistrationController {
             where:{ id: req.params.id },
             include: [
                 {
-                  model: UserModel, as: 'user', attributes:['user_name']
+                  model: UserModel, as: 'user', attributes:['user_name', 'room_id'],
+                  include:[
+                    {model: RoomModel, as:'Room'}
+                ]
                 }, 
                 {
                   model: registration_palataModel, as: 'registration_palata',
