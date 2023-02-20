@@ -67,7 +67,9 @@ class RegistrationController {
                 } 
              ],
              limit: 200,
-             order: ['created_at', 'DESC']
+             order: [
+                ['created_at', 'DESC']
+             ]
         });
         res.status(200).send({  
             error: false,
@@ -120,7 +122,9 @@ class RegistrationController {
                 {model: Registration_payModel, as: 'registration_pay'}
             ],
             limit: 200,
-            order: ['created_at', 'DESC']
+            order: [
+                ['created_at', 'DESC']
+             ]
         });
         if (Prixod === null) {
             throw new HttpException(404, 'Not found');
