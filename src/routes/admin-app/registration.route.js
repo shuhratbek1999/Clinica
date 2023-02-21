@@ -30,4 +30,6 @@ router.post('/directhisobot', auth(),  awaitHandlerFactory(registrationControl.d
 router.post('/directSverka', auth(),  awaitHandlerFactory(registrationControl.directSverka));
 router.patch('/update/:id', auth(), registrationValidate, awaitHandlerFactory(registrationControl.update));
 router.delete('/delete', auth(), awaitHandlerFactory(registrationControl.deleted));
+router.delete("/delete/:id", auth(), awaitHandFactory(registrationControl.delete))
+// router.delete('/delete/:id', auth(), awaitHandlerFactory(registrationControl.deleted));
 module.exports = router;
