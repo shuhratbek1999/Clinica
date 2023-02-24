@@ -378,7 +378,7 @@ class RegistrationController {
                 "backlog": element.backlog,
                 "comment": element.comment
             }
-            await Registration_payModel.create(pay);
+       let tolov =  await Registration_payModel.create(pay);
             var date_time = Math.floor(new Date().getTime() / 1000);
             
             let type = 0, doc_type = '';
@@ -397,15 +397,19 @@ class RegistrationController {
             else{
                 doc_type = 'kirim'
             }
-            Register_kassaModel.create({
-                "date_time": date_time,
-                "doctor_id": model.id,
-                "pay_type": element.pay_type,
-                "price": element.summa,    
-                "type": type,
-                "doc_type": 'Kirim',
-                "place": "registration"
-            })
+            if(tolov != null){
+                if(tolov.dataValues.backlog == 0){
+                    Register_kassaModel.create({
+                        "date_time": date_time,
+                        "doctor_id": model.id,
+                        "pay_type": element.pay_type,
+                        "price": element.summa,    
+                        "type": type,
+                        "doc_type": 'Kirim',
+                        "place": "registration"
+                    })
+                }
+            }
         }
     }
 
@@ -445,6 +449,7 @@ class RegistrationController {
                 raw: true
             })
             if(pay != null){
+               if(pay.dataValues.backlog == 0){
                 var date_time = Math.floor(new Date().getTime() / 1000);
                 Register_inspectionModel.create({
                     "date_time": date_time,
@@ -460,22 +465,7 @@ class RegistrationController {
                     "comment": pay.comment
                   })
             }
-            else{
-                var date_time = Math.floor(new Date().getTime() / 1000);
-                Register_inspectionModel.create({
-                    "date_time": date_time,
-                    "type": data.type,
-                    "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
-                    "doc_id": data.registration_id,
-                    "user_id": data.user_id,
-                    "inspection_id": data.inspection_id,
-                    "inspection_category": data.category_id,
-                    "skidka": data.skidka,
-                    "doc_type": 'kirim',
-                    "place": "Registration",
-                    "comment": ""
-                  })
-            }
+               }
            }, 1000);
                 function isHave(item) { 
                     return item.room_id == user.room_id&&item.patient_id == model.patient_id;
@@ -511,6 +501,11 @@ class RegistrationController {
         if(!insert){
             await this.#deletePalata(model.id);
         }
+        let tolov = await Registration_payModel.findOne({
+            where:{
+                registration_id: model.id
+            }
+        })
         for(let element of registration_palata){
             palata={
                 "palata_id": element.palata_id,
@@ -523,16 +518,20 @@ class RegistrationController {
                 "total_price":element.total_price};
             await registration_palataModel.create(palata); 
             var date_time = Math.floor(new Date().getTime() / 1000);
-            register_palataModel.create({
-                "palata_id": element.palata_id,
-                "patient_id": model.id,
-                "registration_id": model.id,
-                "price": element.price,
-                "day": element.day,
-                "date_to": element.date_to,
-                "date_do": element.date_do,
-                "date_time": element.date_time
-            })
+            if(tolov != null){
+                if(tolov.dataValues.backlog){
+                    register_palataModel.create({
+                        "palata_id": element.palata_id,
+                        "patient_id": model.id,
+                        "registration_id": model.id,
+                        "price": element.price,
+                        "day": element.day,
+                        "date_to": element.date_to,
+                        "date_do": element.date_do,
+                        "date_time": element.date_time
+                    })
+                }
+            }
 
         }
     }
@@ -568,6 +567,7 @@ class RegistrationController {
                     raw: true
                 })
                 if(pay != null){
+                  if(pay.dataValues.backlog == 0){
                     var date_time = Math.floor(new Date().getTime() / 1000);
                     RegisterDoctorModel.create({
                         "date_time": date_time,
@@ -580,19 +580,7 @@ class RegistrationController {
                          "comment": pay.comment
                      })
                 }
-                else{
-                    var date_time = Math.floor(new Date().getTime() / 1000);
-                RegisterDoctorModel.create({
-                    "date_time": date_time,
-                    "type": data.text,
-                    "price": user == undefined ? 0 : Math.floor((data.price * user.percent)/100),
-                    "doc_id": model.id, 
-                    "doctor_id": data.doctor_id,
-                    "doc_type": 'kirim',
-                     "place": "Registration",
-                     "comment": ""
-                 })
-                }
+                  }
                 
             }, 1000);
             // console.log(user, 'salom', data);
