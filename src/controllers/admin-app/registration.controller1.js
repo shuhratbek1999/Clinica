@@ -397,8 +397,9 @@ class RegistrationController {
             else{
                 doc_type = 'kirim'
             }
+
             if(tolov != null){
-                if(tolov.dataValues.backlog == 0){
+                if(tolov.backlog == 0){
                     Register_kassaModel.create({
                         "date_time": date_time,
                         "doctor_id": model.id,
@@ -448,8 +449,9 @@ class RegistrationController {
                 },
                 raw: true
             })
+
             if(pay != null){
-               if(pay.dataValues.backlog == 0){
+               if(pay.backlog == 0){
                 var date_time = Math.floor(new Date().getTime() / 1000);
                 Register_inspectionModel.create({
                     "date_time": date_time,
@@ -518,6 +520,7 @@ class RegistrationController {
                 "total_price":element.total_price};
             await registration_palataModel.create(palata); 
             var date_time = Math.floor(new Date().getTime() / 1000);
+            console.log(tolov.dataValues);
             if(tolov != null){
                 if(tolov.dataValues.backlog){
                     register_palataModel.create({
@@ -566,8 +569,9 @@ class RegistrationController {
                     },
                     raw: true
                 })
+                console.log(pay);
                 if(pay != null){
-                  if(pay.dataValues.backlog == 0){
+                  if(pay.backlog == 0){
                     var date_time = Math.floor(new Date().getTime() / 1000);
                     RegisterDoctorModel.create({
                         "date_time": date_time,

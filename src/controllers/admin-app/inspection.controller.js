@@ -29,7 +29,7 @@ class InspectionController {
             message: 'Malumotlar chiqdi',
             data: model
         });
-        client.setex('inspection', 3600, JSON.stringify(model))
+        // client.setex('inspection', 3600, JSON.stringify(model))
     }
 
     getOne = async (req, res, next) => {
@@ -46,7 +46,7 @@ class InspectionController {
             throw new HttpException(404, 'berilgan id bo\'yicha malumot yo\'q')
         }
         res.send(model)
-        client.setex('inspectionOne', 3600, JSON.stringify(model))
+        // client.setex('inspectionOne', 3600, JSON.stringify(model))
     }
   
     create = async (req, res, next) => {
