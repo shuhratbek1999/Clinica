@@ -16,7 +16,10 @@ class PatientController {
                 {model: RegionModel, as: 'region', attributes: ['id', 'name']},
                 {model: districtModel, as: 'district', attributes: ['id', 'name']}
             ],
-            limit: 100
+            limit: 100,
+            order: [
+                ['id', 'desc']
+            ]
         });
         res.status(200).send({
             error: false,
