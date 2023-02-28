@@ -37,9 +37,11 @@ const RegistrationModel = require('../../models/registration.model');
 const uplataModel = require('../../models/uplata.model')
 const moment = require('moment');
 const register_mkb = require('../../models/register_mkb.model');
+const Registration_arxivModel = require('../../models/registration_arxiv.model');
 class RegistrationController {
     q=[];
     getAll = async (req, res, next) => {
+        this.#arxiv();
         const model = await ModelModel.findAll({
             include:[ 
                 {
@@ -78,7 +80,171 @@ class RegistrationController {
             data: model
         });
     }
+    getAll_arxiv = async (req, res, next) => {
+        // this.#arxiv();
+        const model = await Registration_arxivModel.findAll({
+            include:[ 
+                {
+                    model: UserModel, as: 'users', attributes: ['user_name', 'room_id']
+                },
+                {
+                    model: PatientModel, as: 'patients'
+                },
+                {
+                    model: Registration_doctorModel, as: 'registration_doctors',
+                    include:[
+                        {
+                            model: Registration_recipeModel, as: 'registration_recipe'
+                        },
+                        {model: register_mkb, as: 'register_mkb'}
+                    ]
+                },
+                {
+                    model: Registration_inspectionModel, as: 'registration_inspections',
+                    include:[
+                        {
+                            model: Registration_inspection_childModel, as: 'registration_inspection_child'
+                        }
+                    ]
+                } 
+             ],
+             limit: 200,
+             order: [
+                ['created_at', 'DESC']
+             ]
+        });
+        res.status(200).send({  
+            error: false,
+            error_code: 200,
+            message: 'Malumotlar chiqdi',
+            data: model
+        });
+    }
    
+    #arxiv = async(req, res, next) => {
+        const model = await ModelModel.findAll();
+        let farq, farqs = [];
+        model.forEach(item => {
+             let day = moment(item.created_at*1000),
+             now = moment(new Date());
+             farq =  now.diff(day, 'days');
+             if(farq == 1){
+                farqs.push(item)
+             }
+        })
+        for(let i in farqs){
+            let arxivs = {
+                "user_id": farqs[i].dataValues.user_id,
+                "direct_id": farqs[i].dataValues.direct_id,
+                "created_at": farqs[i].dataValues.created_at,
+                "updated_at": farqs[i].dataValues.updated_at,
+                "status": farqs[i].dataValues.status,
+                "patient_id": farqs[i].dataValues.patient_id,
+                "type_service": farqs[i].dataValues.type_service,
+                "complaint": farqs[i].dataValues.complaint,
+                "summa": farqs[i].dataValues.summa,
+                "pay_summa": farqs[i].dataValues.pay_summa,
+                "backlog": farqs[i].dataValues.backlog,
+                "discount": farqs[i].dataValues.discount,
+                "hospital_summa": farqs[i].dataValues.hospital_summa,
+                "imtiyoz_type": farqs[i].dataValues.imtiyoz_type
+            }
+            await Registration_arxivModel.create(arxivs);
+            await RegistrationModel.destroy({
+                where:{
+                    id: farqs[i].dataValues.id
+                }
+            })
+        }
+    }
+    searchsArxiv = async (req, res, next) => {
+        let ModelList = await Registration_arxivModel.findAll({
+            include:[ 
+                {
+                    model: UserModel, as: 'users', attributes: ['user_name']
+                },
+
+                {
+                    model: Registration_doctorModel, as: 'registration_doctors',
+                    include:[
+                        {
+                            model: Registration_recipeModel, as: 'registration_recipes'
+                        }
+                    ]
+                },
+                {model: PatientModel, as: 'patients', 
+                where:{ 
+                    fullname:{  [Op.like]: '%'+req.body.name+'%'}
+                }
+            },
+            {
+                model: UserModel, as: 'users', attributes: ['user_name']
+            },
+            {
+                model: Registration_doctorModel, as: 'registration_doctors',
+                include:[
+                    {
+                        model: Registration_recipeModel, as: 'registration_recipe'
+                    }
+                ]
+            },
+            {
+                model: Registration_inspectionModel, as: 'registration_inspections',
+                include:[
+                    {
+                        model: Registration_inspection_childModel, as: 'registration_inspection_child'
+                    }
+                ]
+            } 
+            ],
+            limit:100
+        });
+        
+        if(req.body.name.length == 0){
+            let model = await ModelModel.findAll({
+                limit: 50,
+                include:[
+                    {
+                        model: UserModel, as: 'users', attributes: ['user_name']
+                    },
+    
+                    {
+                        model: Registration_doctorModel, as: 'registration_doctors',
+                        include:[
+                            {
+                                model: Registration_recipeModel, as: 'registration_recipe'
+                            }
+                        ]
+                    },
+                    {
+                        model: Registration_inspectionModel, as: 'registration_inspections',
+                        include:[
+                            {
+                                model: Registration_inspection_childModel, as: 'registration_inspection_child'
+                            }
+                        ]
+                    },
+                    {model: PatientModel, as:'patients'}
+                ]
+            })
+            res.send({
+                "error": false,
+                "error_code": 200,
+                "message": "malumotlar chiqdi",
+                data: model
+            });
+        }
+        else{
+            res.send({
+                "error": false,
+                "error_code": 200,
+                "message": "Malumotlar chiqdi",
+                data: ModelList
+            });
+        }
+       
+    };
+    
 
     getOne = async (req, res, next) => {
         this.checkValidation(req);
@@ -252,6 +418,7 @@ class RegistrationController {
     create = async (req, res, next) => {
         this.checkValidation(req);
         var {registration_inspection,registration_doctor,registration_files,registration_palata, registration_pay, ...data} = req.body;
+        
         data.created_at=Math.floor(new Date().getTime() / 1000);
         const model = await ModelModel.create(data);
         if (!model) {

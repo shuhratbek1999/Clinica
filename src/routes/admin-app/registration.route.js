@@ -9,6 +9,7 @@ const awaitHandlerFactory = require('../../middleware/awaitHandlerFactory.middle
 const  {registrationValidate}  = require('../../middleware/validators/admin-app/RegistrationValidator.middleware');
 
 router.get('/all', auth(), awaitHandlerFactory(registrationControl.getAll));
+router.get('/all_arxiv', auth(), awaitHandlerFactory(registrationControl.getAll_arxiv));
 router.get('/register_kassa', auth(), awaitHandlerFactory(registrationControl.registerAll));
 router.get('/queue', auth(), awaitHandlerFactory(registrationControl.queueAll));
 router.get('/kassaAll', auth(), awaitHandlerFactory(registrationControl.kassaAll));
@@ -21,6 +22,7 @@ router.post('/inspection', auth(),  awaitHandlerFactory(registrationControl.insp
 router.post('/imtiyoz', auth(),  awaitHandlerFactory(registrationControl.Imtiyozli));
 router.post('/search', auth(),  awaitHandlerFactory(registrationControl.search));
 router.post('/searchs', auth(),  awaitHandlerFactory(registrationControl.searchs));
+router.post('/search_arxiv', auth(),  awaitHandlerFactory(registrationControl.searchsArxiv));
 router.post('/insSverka', auth(),  awaitHandlerFactory(registrationControl.insSverka));
 router.post('/inspectionSverka', auth(),  awaitHandlerFactory(registrationControl.InspectionSverka));
 router.post('/palata', auth(),  awaitHandlerFactory(registrationControl.palata));
