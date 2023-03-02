@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../db/db-sequelize');
 const inspection = require('./inspection.model');
-const inspectionChildModel = require('./inspectionChild.model');
+// const inspectionChildModel = require('./inspectionChild.model');
 const Registration_inspection_child_arxxivModel = require('./registration_inspection_child_arxiv.model');
 class Registration_inspection_arxivModel extends Model {
     toJSON () {//Api da ishladi
@@ -42,6 +42,9 @@ Registration_inspection_arxivModel.init({
   status:{
       type: DataTypes.STRING(20),
       allowNull: false
+  },
+  skidka:{
+    type: DataTypes.DECIMAL
   }
 }, {
   sequelize,

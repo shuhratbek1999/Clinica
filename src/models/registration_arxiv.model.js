@@ -1,16 +1,16 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../db/db-sequelize');
-const Registration_doctorModel = require('./registration_doctor.model');
-const Registration_inspectionModel = require('../models/registration_inspection.model')
+const Registration_doctorModel = require('./registration_doctor_arxiv.model');
+const Registration_inspectionModel = require('../models/registration_inspection_arxiv.model')
 const UserModel = require('./user.model');
 // const Register_kassaModel = require('./register_kassa.model');
 const PatientModel = require('./patient.model');
 const DoctorModel = require('./doctor.model');
 // const Registration_inspection_childModel = require('./registration_inspection_child.model');
 // const palataModel = require('./palata.model');
-const registration_palataModel = require('./registration_palata.model');
-const Registration_filesModel = require('./registration_files.model');
-const Registration_payModel = require('./registration_pay.model');
+const registration_palataModel = require('./registration_palata_arxiv.model');
+const Registration_filesModel = require('./registration_files_arxiv.model');
+const Registration_payModel = require('./registration_pay_arxiv.model');
 const register_mkb = require('./register_mkb.model');
 
 class Registration_arxivModel extends Model {

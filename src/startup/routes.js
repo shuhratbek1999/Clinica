@@ -15,6 +15,7 @@ const Doctor_templateRouter = require('../routes/admin-app/doctor_template.route
 const doctor_categoryRouter = require('../routes/admin-app/doctor_category.route');
 const inspector_categoryRouter = require('../routes/admin-app/inspector_category.route');
 const registerRouter = require('../routes/admin-app/registration.route')
+const registerArxivRouter = require('../routes/admin-app/registration_arxiv.route')
 const kassa_orderRouter = require('../routes/admin-app/kassa_order.route')
 const expenseRouter = require('../routes/admin-app/expense.route')
 const palataRouter = require('../routes/admin-app/palata.route')
@@ -60,6 +61,7 @@ module.exports = function(app){
         app.use(`/api/v1/admin-app/shablon_doctor`, shablon_Doctor);
         app.use(`/api/v1/admin-app/register_mkb`, register_mkb);
         app.use(`/api/v1/admin-app/info`, inspection_info);
+        app.use(`/api/v1/admin-app/registration_arxiv`, registerArxivRouter);
 
         app.use(`/api/v1/admin-app/href`, express.static('upload')  );
 

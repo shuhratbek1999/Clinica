@@ -17,6 +17,7 @@ const Register_inspectionModel = require('../../models/register_inspection.model
 const RegisterDoctorModel = require('../../models/register_doctor.model');
 const UserModel = require('../../models/user.model');
 const PatientModel = require('../../models/patient.model');
+const db = require("../../db/db-sequelize");
 const QueueModel = require('../../models/queue.model');
 const RoomModel = require('../../models/room.model');
 const DoctorModel = require('../../models/doctor.model');
@@ -40,8 +41,14 @@ const register_mkb = require('../../models/register_mkb.model');
 const Registration_arxivModel = require('../../models/registration_arxiv.model');
 class RegistrationController {
     q=[];
+    cron = () => {
+        const cronJob = require('node-cron');
+        cronJob.schedule('00 00 00 * * * ', () => {
+        this.setArchive();
+})
+    }
     getAll = async (req, res, next) => {
-      await  this.#arxiv();
+        await this.cron();
         const model = await ModelModel.findAll({
             include:[ 
                 {
@@ -120,48 +127,40 @@ class RegistrationController {
             data: model
         });
     }
-   
-    #arxiv = async(req, res, next) => {
-        const model = await ModelModel.findAll();
-        let farq, farqs = [];
-        model.forEach(item => {
-             let day = moment(item.created_at*1000),
-             now = moment(new Date());
-             farq =  now.diff(day, 'days');
-             if(farq >= 1){
-                farqs.push(item)
-             }
-        })
-        for(let element of farqs){
-            let arxivs = {
-                "user_id": element.dataValues.user_id,
-                "direct_id": element.dataValues.direct_id,
-                "created_at": element.dataValues.created_at,
-                "updated_at": element.dataValues.updated_at,
-                "status": element.dataValues.status,
-                "patient_id": element.dataValues.patient_id,
-                "type_service": element.dataValues.type_service,
-                "complaint": element.dataValues.complaint,
-                "summa": element.dataValues.summa,
-                "pay_summa": element.dataValues.pay_summa,
-                "backlog": element.dataValues.backlog,
-                "discount": element.dataValues.discount,
-                "hospital_summa": element.dataValues.hospital_summa,
-                "imtiyoz_type": element.dataValues.imtiyoz_type
-            }
-            await Registration_arxivModel.create(arxivs);
-            await RegistrationModel.destroy({
-                where:{
-                    id: element.dataValues.id
-                }
-            })
-            await PatientModel.destroy({
-                where:{
-                    id: element.dataValues.patient_id
-                }
-            })
-        }
-    }
+    setArchive=async (req, res, next) => {
+     try{
+        await db.query("INSERT INTO registration_inspection_child_arxiv SELECT * FROM registration_inspection_child");
+        await db.query("DELETE from registration_inspection_child");
+        await db.query("INSERT INTO registration_inspection_arxiv SELECT * FROM registration_inspection");        
+        await db.query("DELETE from registration_inspection");
+        await db.query("INSERT INTO registration_files_arxiv SELECT * FROM registration_files");
+        await db.query("DELETE from registration_files");
+        await db.query("INSERT INTO register_doctor_arxiv SELECT * FROM register_doctor");
+        await db.query("DELETE from register_doctor");
+        await db.query("INSERT INTO register_kassa_arxiv SELECT * FROM register_kassa");
+        await db.query("DELETE from register_kassa");
+        await db.query("INSERT INTO register_mkb_arxiv SELECT * FROM register_mkb");
+        await db.query("DELETE from register_mkb");
+        await db.query("INSERT INTO register_inspection_arxiv SELECT * FROM register_inspection");
+        await db.query("DELETE from register_inspection");
+        await db.query("INSERT INTO register_palata_arxiv SELECT * FROM register_palata");
+        await db.query("DELETE from register_palata");
+        await db.query("INSERT INTO registration_recipe_arxiv SELECT * FROM registration_recipe");
+        await db.query("DELETE from registration_recipe");
+        await db.query("INSERT INTO registration_doctor_arxiv SELECT * FROM registration_doctor");
+        await db.query("DELETE from registration_doctor");
+        await db.query("INSERT INTO registration_arxiv SELECT * FROM registration");
+        await db.query("DELETE from registration");
+        await db.query("INSERT INTO registration_pay_arxiv SELECT * FROM registration_pay");
+        await db.query("DELETE from registration_pay");
+        await db.query("INSERT INTO registration_palata_arxiv SELECT * FROM registration_palata");
+        await db.query("DELETE from registration_palata");
+     }
+     catch(err){
+        console.log(err);
+     }
+        // res.send('okey');
+    };
     searchsArxiv = async (req, res, next) => {
         let ModelList = await Registration_arxivModel.findAll({
             include:[ 
@@ -170,23 +169,23 @@ class RegistrationController {
                 },
 
                 {
-                    model: Registration_doctorModel, as: 'registration_doctors',
+                    model: Registration_doctorModel, as: 'registration_doctor',
                     include:[
                         {
-                            model: Registration_recipeModel, as: 'registration_recipes'
+                            model: Registration_recipeModel, as: 'registration_recipe'
                         }
                     ]
                 },
-                {model: PatientModel, as: 'patients', 
+                {model: PatientModel, as: 'patient', 
                 where:{ 
                     fullname:{  [Op.like]: '%'+req.body.name+'%'}
                 }
             },
             {
-                model: UserModel, as: 'users', attributes: ['user_name']
+                model: UserModel, as: 'user', attributes: ['user_name']
             },
             {
-                model: Registration_doctorModel, as: 'registration_doctors',
+                model: Registration_doctorModel, as: 'registration_doctor',
                 include:[
                     {
                         model: Registration_recipeModel, as: 'registration_recipe'
@@ -194,7 +193,7 @@ class RegistrationController {
                 ]
             },
             {
-                model: Registration_inspectionModel, as: 'registration_inspections',
+                model: Registration_inspectionModel, as: 'registration_inspection',
                 include:[
                     {
                         model: Registration_inspection_childModel, as: 'registration_inspection_child'
@@ -210,11 +209,11 @@ class RegistrationController {
                 limit: 50,
                 include:[
                     {
-                        model: UserModel, as: 'users', attributes: ['user_name']
+                        model: UserModel, as: 'user', attributes: ['user_name']
                     },
     
                     {
-                        model: Registration_doctorModel, as: 'registration_doctors',
+                        model: Registration_doctorModel, as: 'registration_doctor',
                         include:[
                             {
                                 model: Registration_recipeModel, as: 'registration_recipe'
@@ -222,14 +221,14 @@ class RegistrationController {
                         ]
                     },
                     {
-                        model: Registration_inspectionModel, as: 'registration_inspections',
+                        model: Registration_inspectionModel, as: 'registration_inspection',
                         include:[
                             {
                                 model: Registration_inspection_childModel, as: 'registration_inspection_child'
                             }
                         ]
                     },
-                    {model: PatientModel, as:'patients'}
+                    {model: PatientModel, as:'patient'}
                 ]
             })
             res.send({
