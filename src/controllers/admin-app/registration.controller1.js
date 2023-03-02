@@ -41,7 +41,7 @@ const Registration_arxivModel = require('../../models/registration_arxiv.model')
 class RegistrationController {
     q=[];
     getAll = async (req, res, next) => {
-        this.#arxiv();
+      await  this.#arxiv();
         const model = await ModelModel.findAll({
             include:[ 
                 {
@@ -85,13 +85,13 @@ class RegistrationController {
         const model = await Registration_arxivModel.findAll({
             include:[ 
                 {
-                    model: UserModel, as: 'users', attributes: ['user_name', 'room_id']
+                    model: UserModel, as: 'user', attributes: ['user_name', 'room_id']
                 },
                 {
-                    model: PatientModel, as: 'patients'
+                    model: PatientModel, as: 'patient'
                 },
                 {
-                    model: Registration_doctorModel, as: 'registration_doctors',
+                    model: Registration_doctorModel, as: 'registration_doctor',
                     include:[
                         {
                             model: Registration_recipeModel, as: 'registration_recipe'
@@ -100,7 +100,7 @@ class RegistrationController {
                     ]
                 },
                 {
-                    model: Registration_inspectionModel, as: 'registration_inspections',
+                    model: Registration_inspectionModel, as: 'registration_inspection',
                     include:[
                         {
                             model: Registration_inspection_childModel, as: 'registration_inspection_child'
@@ -128,31 +128,36 @@ class RegistrationController {
              let day = moment(item.created_at*1000),
              now = moment(new Date());
              farq =  now.diff(day, 'days');
-             if(farq == 1){
+             if(farq >= 1){
                 farqs.push(item)
              }
         })
-        for(let i in farqs){
+        for(let element of farqs){
             let arxivs = {
-                "user_id": farqs[i].dataValues.user_id,
-                "direct_id": farqs[i].dataValues.direct_id,
-                "created_at": farqs[i].dataValues.created_at,
-                "updated_at": farqs[i].dataValues.updated_at,
-                "status": farqs[i].dataValues.status,
-                "patient_id": farqs[i].dataValues.patient_id,
-                "type_service": farqs[i].dataValues.type_service,
-                "complaint": farqs[i].dataValues.complaint,
-                "summa": farqs[i].dataValues.summa,
-                "pay_summa": farqs[i].dataValues.pay_summa,
-                "backlog": farqs[i].dataValues.backlog,
-                "discount": farqs[i].dataValues.discount,
-                "hospital_summa": farqs[i].dataValues.hospital_summa,
-                "imtiyoz_type": farqs[i].dataValues.imtiyoz_type
+                "user_id": element.dataValues.user_id,
+                "direct_id": element.dataValues.direct_id,
+                "created_at": element.dataValues.created_at,
+                "updated_at": element.dataValues.updated_at,
+                "status": element.dataValues.status,
+                "patient_id": element.dataValues.patient_id,
+                "type_service": element.dataValues.type_service,
+                "complaint": element.dataValues.complaint,
+                "summa": element.dataValues.summa,
+                "pay_summa": element.dataValues.pay_summa,
+                "backlog": element.dataValues.backlog,
+                "discount": element.dataValues.discount,
+                "hospital_summa": element.dataValues.hospital_summa,
+                "imtiyoz_type": element.dataValues.imtiyoz_type
             }
             await Registration_arxivModel.create(arxivs);
             await RegistrationModel.destroy({
                 where:{
-                    id: farqs[i].dataValues.id
+                    id: element.dataValues.id
+                }
+            })
+            await PatientModel.destroy({
+                where:{
+                    id: element.dataValues.patient_id
                 }
             })
         }
@@ -736,7 +741,6 @@ class RegistrationController {
                     },
                     raw: true
                 })
-                console.log(pay);
                 if(pay != null){
                   if(pay.backlog == 0){
                     var date_time = Math.floor(new Date().getTime() / 1000);
@@ -1021,7 +1025,7 @@ class RegistrationController {
                     date_time: {[Op.lt]: body.datetime1},
                   },
                   include:[
-                    {model: RegistrationModel, as: 'registration', attributes: [],
+                    {model: Registration_arxivModel, as: 'registration', attributes: [],
                 include:[
                     {model: Registration_doctorModel, as: 'registration_doctor', attributes: [],
                 include: [

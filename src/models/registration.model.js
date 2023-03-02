@@ -3,7 +3,7 @@ const sequelize = require('../db/db-sequelize');
 const Registration_doctorModel = require('./registration_doctor.model');
 const Registration_inspectionModel = require('../models/registration_inspection.model')
 const UserModel = require('./user.model');
-const Register_kassaModel = require('./register_kassa.model');
+// const Register_kassaModel = require('./register_kassa.model');
 const PatientModel = require('./patient.model');
 const DoctorModel = require('./doctor.model');
 // const Registration_inspection_childModel = require('./registration_inspection_child.model');
@@ -116,11 +116,11 @@ tramma_type:{
   ],
    
 });
-Register_kassaModel.belongsTo(RegistrationModel, {as: 'registration', foreignKey: 'doctor_id'})
+// Register_kassaModel.belongsTo(RegistrationModel, {as: 'registration', foreignKey: 'doctor_id'})
 RegistrationModel.hasMany(Registration_doctorModel, {as: 'registration_doctor', foreignKey: 'registration_id'})
 RegistrationModel.hasMany(Registration_inspectionModel, {as: 'registration_inspection', foreignKey: 'registration_id'})
 // RegistrationModel.hasMany(Registration_inspection_childModel, {as: 'registration_inspection_child', foreignKey: 'id'})
-RegistrationModel.hasMany(Register_kassaModel, {as: 'register_kassa', foreignKey: 'doctor_id'})
+// RegistrationModel.hasMany(Register_kassaModel, {as: 'register_kassa', foreignKey: 'doctor_id'})
 RegistrationModel.hasMany(Registration_filesModel, {as: 'registration_files', foreignKey: 'registration_id'})
 RegistrationModel.belongsTo(PatientModel, {as: 'patient', foreignKey: 'patient_id'})
 RegistrationModel.belongsTo(DoctorModel, {as: 'doctor', foreignKey: 'id'})
