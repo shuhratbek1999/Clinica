@@ -14,4 +14,5 @@ router.post('/kassa', auth(), awaitHandlerFactory(registrationControl.kassa));
 router.post('/kassasverka', auth(), awaitHandlerFactory(registrationControl.kassaSverka));
 router.post('/sverkaDoctor', auth(), awaitHandlerFactory(registrationControl.DoctorSverka));
 router.post('/hisobotDoctor', auth(), awaitHandlerFactory(registrationControl.create));
+router.post('/register', auth(), awaitHandlerFactory(registrationControl.register));
 module.exports = router;

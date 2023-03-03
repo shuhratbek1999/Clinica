@@ -421,6 +421,19 @@ class Registration_arxivController {
             console.log(err);
         }
     };
+    
+    register = async(req, res, next) => {
+        const model = await ModelModel.findAll({
+            where:{
+                patient_id: req.body.patient_id
+            }
+        })
+        if(!model){
+            throw new HttpException(401, 'bemor topilmadi')
+        }
+        res.send(model)
+    }
+
     inspection = async (req, res, next) => {
          try{
             let query = {}, queryx = {};
