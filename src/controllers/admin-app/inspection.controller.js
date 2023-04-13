@@ -5,7 +5,6 @@ const inspectionModel = require('../../models/inspection.model');
 const inspectionChildModel = require('../../models/inspectionChild.model');
 const UserModel = require('../../models/user.model');
 const inspector_categoryModel = require('../../models/inspector_category.model');
-const client = require('../../startup/client');
 const RoomModel = require('../../models/room.model');
 /******************************************************************************
  *                              Employer Controller

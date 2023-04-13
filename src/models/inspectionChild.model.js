@@ -16,7 +16,7 @@ inspectionChildModel.init({
     allowNull: false
 },
 norm : {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING(),
 },
 parent_id : {
     type: DataTypes.INTEGER,
@@ -31,7 +31,7 @@ citizen_price:{
   type:DataTypes.DECIMAL()
 },
 name: {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING(),
 },
 file: {
     type: DataTypes.STRING,

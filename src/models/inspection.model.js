@@ -19,7 +19,7 @@ inspectionModel.init({
     allowNull: false
 },
 name: {
-    type: DataTypes.STRING(200),
+    type: DataTypes.STRING(2000),
 },
 parent_id : {
     type: DataTypes.INTEGER,
