@@ -32,7 +32,6 @@ class InspectionController {
     }
 
     getOne = async (req, res, next) => {
-        this.checkValidation(req);
         const model = await inspectionModel.findOne({
             where:{
                 id: req.params.id
