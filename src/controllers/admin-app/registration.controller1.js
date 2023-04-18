@@ -41,14 +41,7 @@ const register_mkb = require('../../models/register_mkb.model');
 const Registration_arxivModel = require('../../models/registration_arxiv.model');
 class RegistrationController {
     q=[];
-    cron = () => {
-        const cronJob = require('node-cron');
-        cronJob.schedule('00 00 00 * * * ', () => {
-        this.setArchive();
-})
-    }
     getAll = async (req, res, next) => {
-        await this.cron();
         const model = await ModelModel.findAll({
             include:[ 
                 {
@@ -86,6 +79,7 @@ class RegistrationController {
             message: 'Malumotlar chiqdi',
             data: model
         });
+    
     }
     getAll_arxiv = async (req, res, next) => {
         // this.#arxiv();

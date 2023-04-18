@@ -20,7 +20,7 @@ Registration_inspection_child_arxxivModel.init({
       type: DataTypes.INTEGER
   },
   text : {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
   },
   norm:{
       type: DataTypes.STRING(),

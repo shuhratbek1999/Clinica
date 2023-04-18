@@ -32,7 +32,7 @@ Registration_doctor_arxivModel.init({
       allowNull: false
   },
   text:{
-      type:DataTypes.STRING,
+      type:DataTypes.TEXT,
       allowNull: false
 }
 }, {
