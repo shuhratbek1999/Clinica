@@ -589,7 +589,7 @@ class RegistrationController {
             var {registration_inspection_child,registration_inspection, ...data} = element;
             let user = await UserModel.findOne({
                 where:{
-                  id: data.user_id
+                  id: element.user_id
                 },
                 raw: true
             })
@@ -713,7 +713,7 @@ class RegistrationController {
             var {Registration_recipe, register_mkb,...data} = element;
             let user = await UserModel.findOne({
                 where:{
-                    doctor_id: data.doctor_id
+                    doctor_id: element.doctor_id
                 },
                 raw: true
             })
