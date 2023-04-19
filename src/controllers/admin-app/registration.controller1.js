@@ -593,7 +593,7 @@ class RegistrationController {
                 },
                 raw: true
             })
-            console.log(user, "tekshiruv");
+            console.log(user,element, "tekshiruv");
             data.registration_id=model.id;
           let date =Math.floor(new Date().getTime() / 1000);
             dds={
@@ -718,7 +718,7 @@ class RegistrationController {
                 },
                 raw: true
             })
-            console.log(user, 'doktor');
+            console.log(user, element, 'doktor');
             var news={
                 "doctor_id":element.doctor_id,
                 "registration_id":model.id,
