@@ -171,7 +171,10 @@ class RegisterDoctorController {
            [sequelize.literal("COUNT(CASE WHEN register_doctor.date_time >= " + datetime1 + " and register_doctor.date_time <= " + datetime2 + ` AND register_doctor.doctor_id = ${body.doctor_id} THEN register_doctor.doctor_id ELSE 0 END)`), 'count'],
        ],  
        where: queryx,
-       group: ['doctor_id']
+       group: ['doctor_id'],
+       include:[
+        {model: DoctorModel, as: 'doctor', attributes: ['name']}
+       ]
     })
     res.send(model)
    }
