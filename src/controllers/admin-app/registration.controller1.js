@@ -1425,84 +1425,20 @@ class RegistrationController {
     deleted = async (req, res, next) => {
         let models = await ModelModel.findAll();
         if(models.length > 0){
-            for(let i = 0; i <= models.length; i++){
-                console.log(models[i].dataValues.patient_id)
-                if(models[i] != undefined){
-                    await QueueModel.destroy({
-                        where:{
-                            patient_id: models[i].dataValues.patient_id
-                        }
-                      })
-                      await uplataModel.destroy({
-                        where:{
-                            user_id: models[i].dataValues.user_id
-                        }
-                      })
-                      await PatientModel.destroy({
-                        where:{
-                            id: models[i].dataValues.patient_id
-                        }
-                      })
-                      await Registration_doctorModel.destroy({
-                        where:{
-                            registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Registration_filesModel.destroy({
-                        where:{
-                         registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Registration_inspectionModel.destroy({
-                        where:{
-                         registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Registration_inspection_childModel.destroy({
-                        where:{
-                         registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Register_inspectionModel.destroy({
-                        where:{
-                            doc_id: models[i].dataValues.id
-                        }
-                      })
-                      await RegisterDoctorModel.destroy({
-                        where:{
-                            doc_id: models[i].dataValues.id
-                        }
-                      })
-                      await register_mkb.destroy({
-                        where:{
-                            registration_id: models[i].dataValues.id
-                        }
-                      })
-                      await Registration_payModel.destroy({
-                        where:{
-                         registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Registration_recipeModel.destroy({
-                        where:{
-                         registration_id: models[i].dataValues.id
-                        }
-                       })
-                       await Register_kassaModel.destroy({
-                        where:{
-                            doctor_id: models[i].dataValues.id
-                        }
-                    })
-                    await ModelModel.destroy({ 
-                        where:{
-                          id: models[i].dataValues.id
-                        }
-                    });
-                }
-                else{
-                    break;
-                }
-          }
+            db.query('DELETE from registration')
+            db.query('DELETE from registration_doctor')
+            db.query('DELETE from registration_inspection')
+            db.query('DELETE from registration_inspection_child')
+            db.query('DELETE from registration_pay')
+            db.query('DELETE from registration_recipe')
+            db.query('DELETE from register_doctor')
+            db.query('DELETE from register_inspection')
+            db.query('DELETE from register_kassa')
+            db.query('DELETE from register_mkb')
+            db.query('DELETE from register_palata')
+            db.query('DELETE from uplata')
+            db.query('DELETE from queue')
+            db.query('DELETE from patient')
         }
         else{
             throw new HttpException(401, "bazada malumot mavjud emas")
