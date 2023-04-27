@@ -1426,6 +1426,7 @@ class RegistrationController {
         let models = await ModelModel.findAll();
         if(models.length > 0){
             for(let i = 0; i <= models.length; i++){
+                console.log(models[i].dataValues.patient_id)
                 if(models[i] != undefined){
                     await QueueModel.destroy({
                         where:{
